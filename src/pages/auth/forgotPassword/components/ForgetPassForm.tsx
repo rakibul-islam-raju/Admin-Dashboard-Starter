@@ -1,6 +1,7 @@
+import { useForgotPasswordMutation } from "@/api/queries/auth";
+import { SubmitButton } from "@/components/Buttons";
 import { BaseForm } from "@/components/forms/BaseForm";
 import { TextField } from "@/components/forms/TextField";
-import { Button } from "@/components/ui/button";
 import { useZodForm } from "@/hooks/useZodForm";
 import { forgetPassSchema, type ForgetPassSchema } from "./forgetPassSchema";
 
@@ -11,9 +12,10 @@ export const ForgetPassForm = () => {
 		},
 	});
 
+	const { mutate: forgotPassword, isPending } = useForgotPasswordMutation();
+
 	const onSubmit = (data: ForgetPassSchema) => {
-		console.log("Login data:", data);
-		// TODO: Implement login logic
+		forgotPassword(data);
 	};
 
 	return (
@@ -25,9 +27,14 @@ export const ForgetPassForm = () => {
 					required
 				/>
 			</div>
-			<Button className="mt-4 w-full" type="submit">
+			<SubmitButton
+				className="mt-4 w-full"
+				type="submit"
+				disabled={isPending}
+				loading={isPending}
+			>
 				Send Reset Link
-			</Button>
+			</SubmitButton>
 		</BaseForm>
 	);
 };

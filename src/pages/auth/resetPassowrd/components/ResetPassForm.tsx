@@ -1,6 +1,7 @@
+import { useResetPasswordMutation } from "@/api/queries/auth";
+import { SubmitButton } from "@/components/Buttons";
 import { BaseForm } from "@/components/forms/BaseForm";
 import { PasswordField } from "@/components/forms/PasswordField";
-import { Button } from "@/components/ui/button";
 import { useZodForm } from "@/hooks/useZodForm";
 import { resetPassSchema, type ResetPassSchema } from "./resetPassSchema";
 
@@ -12,9 +13,10 @@ export const ResetPassForm = () => {
 		},
 	});
 
+	const { mutate: resetPassword, isPending } = useResetPasswordMutation();
+
 	const onSubmit = (data: ResetPassSchema) => {
-		console.log("Login data:", data);
-		// TODO: Implement login logic
+		resetPassword(data);
 	};
 
 	return (
@@ -31,9 +33,14 @@ export const ResetPassForm = () => {
 					required
 				/>
 			</div>
-			<Button className="mt-4 w-full" type="submit">
+			<SubmitButton
+				className="mt-4 w-full"
+				type="submit"
+				disabled={isPending}
+				loading={isPending}
+			>
 				Reset Password
-			</Button>
+			</SubmitButton>
 		</BaseForm>
 	);
 };

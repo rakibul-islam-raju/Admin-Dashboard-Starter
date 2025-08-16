@@ -1,7 +1,8 @@
+import { useLoginMutation } from "@/api/queries/auth";
+import { SubmitButton } from "@/components/Buttons";
 import { BaseForm } from "@/components/forms/BaseForm";
 import { PasswordField } from "@/components/forms/PasswordField";
 import { TextField } from "@/components/forms/TextField";
-import { Button } from "@/components/ui/button";
 import { useZodForm } from "@/hooks/useZodForm";
 import { loginSchema, type LoginSchema } from "./loginSchema";
 
@@ -13,9 +14,10 @@ export const LoginForm = () => {
 		},
 	});
 
+	const { mutate: login, isPending } = useLoginMutation();
+
 	const onSubmit = (data: LoginSchema) => {
-		console.log("Login data:", data);
-		// TODO: Implement login logic
+		login(data);
 	};
 
 	return (
@@ -30,9 +32,14 @@ export const LoginForm = () => {
 					forgetPasswordPath="/forgot-password"
 				/>
 			</div>
-			<Button className="mt-4 w-full" type="submit">
+			<SubmitButton
+				className="mt-4 w-full"
+				type="submit"
+				disabled={isPending}
+				loading={isPending}
+			>
 				Login
-			</Button>
+			</SubmitButton>
 		</BaseForm>
 	);
 };
