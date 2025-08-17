@@ -3,6 +3,7 @@ import { BASE_API_URL } from "@/config";
 import { authService } from "@/services/authService";
 import { localStorageService } from "@/services/localStorageService";
 import axios from "axios";
+import { toast } from "sonner";
 
 export const axiosInstance = axios.create({
 	baseURL: BASE_API_URL,
@@ -33,6 +34,7 @@ axiosInstance.interceptors.response.use(
 		// Do something with response data
 		return response;
 	},
+
 	async function (error) {
 		const originalRequest = error.config;
 
@@ -99,6 +101,9 @@ axiosInstance.interceptors.response.use(
 				});
 			}
 		}
+
+		// show error toast
+		toast.error(error.response?.data?.message || "Something went wrong");
 
 		return Promise.reject(error);
 	}

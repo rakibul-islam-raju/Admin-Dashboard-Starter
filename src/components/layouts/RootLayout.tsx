@@ -1,6 +1,7 @@
 import { dashboardConfig } from "@/config/dashboard.config";
 import { siteConfig } from "@/config/site.config";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/authStore";
 import {
 	Bell,
 	LogOut,
@@ -25,6 +26,8 @@ import { Separator } from "../ui/separator";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "../ui/sidebar";
 
 export default function RootLayout() {
+	const logout = useAuthStore((state) => state.logout);
+
 	return (
 		<SidebarProvider>
 			<AppSidebar />
@@ -81,7 +84,10 @@ export default function RootLayout() {
 									<span>Dark Mode</span>
 								</DropdownMenuItem>
 								<DropdownMenuSeparator />
-								<DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50">
+								<DropdownMenuItem
+									className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
+									onClick={logout}
+								>
 									<LogOut className="mr-2 h-4 w-4" />
 									<span>Log out</span>
 								</DropdownMenuItem>

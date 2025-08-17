@@ -10,7 +10,8 @@ export type LoginRequest = {
 
 export type ResetPasswordRequest = {
 	password: string;
-	confirmPassword: string;
+	token: string;
+	email: string;
 };
 
 export type ForgetPasswordRequest = {
