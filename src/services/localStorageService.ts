@@ -39,7 +39,7 @@ const getAuthTokens = () => {
 	const tokens = localStorage.getItem(localStorageKeys.authKey);
 	if (tokens) {
 		const parsedTokens = JSON.parse(tokens);
-		return parsedTokens;
+		return parsedTokens as AuthTokens;
 	}
 	return null;
 };

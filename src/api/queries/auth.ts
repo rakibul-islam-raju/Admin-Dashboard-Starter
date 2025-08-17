@@ -1,5 +1,5 @@
 import { authService } from "@/services/authService";
-import { localStorageService } from "@/services/localStorageService";
+import { useAuthStore } from "@/store/authStore";
 import type {
 	ForgetPasswordRequest,
 	LoginRequest,
@@ -9,6 +9,8 @@ import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 export const useLoginMutation = () => {
+	const setAuthTokens = useAuthStore((state) => state.setAuthTokens);
+
 	return useMutation({
 		mutationFn: (data: LoginRequest) => authService.login(data),
 		onSuccess: (data) => {
@@ -16,9 +18,7 @@ export const useLoginMutation = () => {
 				access: data.data.accessToken,
 				refresh: data.data.refreshToken,
 			};
-			localStorageService.setAuthTokens(tokens);
-
-			// TODO: set user info to global state
+			setAuthTokens(tokens);
 		},
 	});
 };

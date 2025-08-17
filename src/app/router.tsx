@@ -1,4 +1,5 @@
 import AuthLayout from "@/components/layouts/AuthLayout";
+import PrivateRoutes from "@/components/layouts/PrivateRoutes";
 import PublicRoutes from "@/components/layouts/PublicRoutes";
 import RootLayout from "@/components/layouts/RootLayout";
 import ForgotPassword from "@/pages/auth/forgotPassword";
@@ -9,17 +10,21 @@ import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
 	{
-		path: "/",
-		element: <RootLayout />,
+		element: <PrivateRoutes />,
 		children: [
 			{
-				index: true,
-				element: <Dashboard />,
+				path: "/",
+				element: <RootLayout />,
+				children: [
+					{
+						index: true,
+						element: <Dashboard />,
+					},
+				],
 			},
 		],
 	},
 	{
-		path: "/",
 		element: <PublicRoutes />,
 		children: [
 			{
